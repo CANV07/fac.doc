@@ -3,14 +3,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const startButton = document.getElementById('start-button');
     const resultDiv = document.getElementById('result');
     let startTime, reactionTime, totalReactionTime = 0;
-    let rounds = 5;
+    let rounds = 3; // Número de rondas
     let roundCount = 0;
     let number4Shown = false;
+    let isGameActive = false;
 
     function startGame() {
+        if (isGameActive) return; // Evita iniciar el juego si ya está activo
+
         roundCount = 0;
         totalReactionTime = 0;
         resultDiv.textContent = '';
+        isGameActive = true;
         nextRound();
     }
 
@@ -27,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayNumber() {
-        const randomNum = Math.floor(Math.random() * 9) + 1;
+        const randomNum = Math.random() < 0.5 ? Math.floor(Math.random() * 90) + 10 : 4;
         display.textContent = randomNum;
         
         if (randomNum === 4) {
@@ -38,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!number4Shown) {
                     nextRound();
                 }
-            }, 1000);
+            }, 1000); // Espera un segundo antes de mostrar el siguiente número
         }
     }
 
@@ -52,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function endGame() {
+        isGameActive = false;
         const averageReactionTime = totalReactionTime / rounds;
         resultDiv.textContent = `Tiempo promedio de reacción: ${averageReactionTime.toFixed(2)} ms`;
         display.textContent = '';

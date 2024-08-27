@@ -1,46 +1,10 @@
 <!DOCTYPE html>
-<html lang="es"><head><meta name="GCD" content="YTk3ODQ3ZWZhN2I4NzZmMzBkNTEwYjJlf211c0a66905204c617348f6ee1084f4"/>
+<html lang="es">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test de Tiempo de Reacción</title>
-    <style>body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
-    margin: 0;
-}
-
-.container {
-    text-align: center;
-}
-
-#game {
-    display: inline-block;
-    padding: 20px;
-    border: 2px solid #333;
-    background-color: #fff;
-    border-radius: 8px;
-}
-
-#display {
-    font-size: 48px;
-    margin: 20px;
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.result {
-    margin-top: 20px;
-    font-size: 18px;
-    font-weight: bold;
-}</style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
@@ -52,66 +16,6 @@ button {
             <div id="result" class="result"></div>
         </div>
     </div>
-    <script>document.addEventListener('DOMContentLoaded', () => {
-    const display = document.getElementById('display');
-    const startButton = document.getElementById('start-button');
-    const resultDiv = document.getElementById('result');
-    let startTime, reactionTime, totalReactionTime = 0;
-    let rounds = 5;
-    let roundCount = 0;
-    let number4Shown = false;
-
-    function startGame() {
-        roundCount = 0;
-        totalReactionTime = 0;
-        resultDiv.textContent = '';
-        nextRound();
-    }
-
-    function nextRound() {
-        if (roundCount < rounds) {
-            roundCount++;
-            number4Shown = false;
-            setTimeout(() => {
-                displayNumber();
-            }, Math.random() * 2000 + 1000); // Espera entre 1 y 3 segundos
-        } else {
-            endGame();
-        }
-    }
-
-    function displayNumber() {
-        const randomNum = Math.floor(Math.random() * 9) + 1;
-        display.textContent = randomNum;
-        
-        if (randomNum === 4) {
-            number4Shown = true;
-            startTime = Date.now();
-        } else {
-            setTimeout(() => {
-                if (!number4Shown) {
-                    nextRound();
-                }
-            }, 1000);
-        }
-    }
-
-    display.addEventListener('click', () => {
-        if (number4Shown) {
-            reactionTime = Date.now() - startTime;
-            totalReactionTime += reactionTime;
-            display.textContent = '¡Bien hecho!';
-            setTimeout(nextRound, 1000);
-        }
-    });
-
-    function endGame() {
-        const averageReactionTime = totalReactionTime / rounds;
-        resultDiv.textContent = `Tiempo promedio de reacción: ${averageReactionTime.toFixed(2)} ms`;
-        display.textContent = '';
-    }
-
-    startButton.addEventListener('click', startGame);
-});</script>
-
-</body></html>
+    <script src="script.js"></script>
+</body>
+</html>
