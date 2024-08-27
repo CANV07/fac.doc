@@ -1,39 +1,117 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>undefined</title>
-    <meta name="generator" content="Google Web Designer 16.1.0.0530">
-    <style id="gwd-text-style">
-      p {
-        margin: 0;
-      }
-      h1 {
-        margin: 0;
-      }
-      h2 {
-        margin: 0;
-      }
-      h3 {
-        margin: 0;
-      }
-    </style>
-    <style>
-      html, body {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-      }
-      body {
-        background-color: transparent;
-        transform: perspective(1400px) matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-        transform-style: preserve-3d;
-      }
-      body * {
-        transform-style: preserve-3d;
-      }
-    </style>
-  </head>
-  <body>
-  </body>
-</html>
+<html lang="es"><head><meta name="GCD" content="YTk3ODQ3ZWZhN2I4NzZmMzBkNTEwYjJlf211c0a66905204c617348f6ee1084f4"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Tiempo de Reacción</title>
+    <style>body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+}
+
+#game {
+    display: inline-block;
+    padding: 20px;
+    border: 2px solid #333;
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+#display {
+    font-size: 48px;
+    margin: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.result {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}</style>
+</head>
+<body>
+    <div class="container">
+        <h1>Test de Tiempo de Reacción</h1>
+        <div id="game">
+            <p id="instruction">Haz clic en el número 4 cuando aparezca.</p>
+            <div id="display" class="display"></div>
+            <button id="start-button">Iniciar Prueba</button>
+            <div id="result" class="result"></div>
+        </div>
+    </div>
+    <script>document.addEventListener('DOMContentLoaded', () => {
+    const display = document.getElementById('display');
+    const startButton = document.getElementById('start-button');
+    const resultDiv = document.getElementById('result');
+    let startTime, reactionTime, totalReactionTime = 0;
+    let rounds = 5;
+    let roundCount = 0;
+    let number4Shown = false;
+
+    function startGame() {
+        roundCount = 0;
+        totalReactionTime = 0;
+        resultDiv.textContent = '';
+        nextRound();
+    }
+
+    function nextRound() {
+        if (roundCount < rounds) {
+            roundCount++;
+            number4Shown = false;
+            setTimeout(() => {
+                displayNumber();
+            }, Math.random() * 2000 + 1000); // Espera entre 1 y 3 segundos
+        } else {
+            endGame();
+        }
+    }
+
+    function displayNumber() {
+        const randomNum = Math.floor(Math.random() * 9) + 1;
+        display.textContent = randomNum;
+        
+        if (randomNum === 4) {
+            number4Shown = true;
+            startTime = Date.now();
+        } else {
+            setTimeout(() => {
+                if (!number4Shown) {
+                    nextRound();
+                }
+            }, 1000);
+        }
+    }
+
+    display.addEventListener('click', () => {
+        if (number4Shown) {
+            reactionTime = Date.now() - startTime;
+            totalReactionTime += reactionTime;
+            display.textContent = '¡Bien hecho!';
+            setTimeout(nextRound, 1000);
+        }
+    });
+
+    function endGame() {
+        const averageReactionTime = totalReactionTime / rounds;
+        resultDiv.textContent = `Tiempo promedio de reacción: ${averageReactionTime.toFixed(2)} ms`;
+        display.textContent = '';
+    }
+
+    startButton.addEventListener('click', startGame);
+});</script>
+
+</body></html>
